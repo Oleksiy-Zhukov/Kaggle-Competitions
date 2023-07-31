@@ -14,7 +14,7 @@ In the Kaggle Notebook [link](https://www.kaggle.com/code/zhukovoleksiy/5-soluti
 ### 1. Import & Load Data
 In this initial section, we imported necessary libraries and loaded the dataset, enabling us to proceed with data exploration and analysis.
 
-To run the Kaggle Notebook and reproduce the analysis, make sure to have the following libraries and dependencies installed. You can use the `requirements.txt` file to install the necessary packages using `pip`:
+To run the Kaggle Notebook and reproduce the analysis, make sure to have the following libraries and dependencies installed. You can use the [`requirements.txt`](https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/blob/main/PS/S3E13/requirements.txt) file to install the necessary packages using `pip`:
 
 The Kaggle Notebook utilizes various libraries for data preprocessing, model building, feature engineering, and visualization. Below is a breakdown of the libraries used in the import section:
 
