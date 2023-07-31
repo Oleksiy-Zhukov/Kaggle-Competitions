@@ -42,6 +42,9 @@ In the import section, we suppress warnings to ensure a clean output during the 
 ### 3. Basic EDA
 We performed Exploratory Data Analysis (EDA) to gain insights into the dataset's characteristics. This involved visualizing distributions, examining feature correlations, and identifying potential outliers.
 
+<img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/354066db-9bc8-4342-96c0-8b1667db13c2">
+
+
 ### 4. Feature Engineering
 The Feature Engineering phase aimed to prepare the data for model building. We created new features, handled missing values, and preprocessed the dataset to enhance model performance.
 
