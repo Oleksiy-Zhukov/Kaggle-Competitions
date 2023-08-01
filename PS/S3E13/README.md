@@ -336,6 +336,49 @@ study.optimize(objective, n_trials=n_trials)
 print('Best hyperparameters: {}'.format(study.best_params))
 print('Best score: {}'.format(study.best_value))
 ```
+Ensemble weights optimization:
+
+```python
+class OptunaWeights:
+    def __init__(self, random_state, n_trials=2000):
+        self.study = None
+        self.weights = None
+        self.random_state = random_state
+        self.n_trials = n_trials
+
+    def _objective(self, trial, y_true, y_preds):
+        # Define the weights for the predictions from each model
+        weights = [trial.suggest_float(f"weight{n}", 1e-12, 1) for n in range(len(y_preds))]
+
+        # Calculate the weighted prediction
+        weighted_pred = np.average(np.array(y_preds), axis=0, weights=weights)
+
+        # Calculate the MAP@3 score for the weighted prediction
+        top_preds = np.argsort(-weighted_pred, axis=1)[:, :3]
+        score = mapk(y_true.reshape(-1, 1), top_preds, 3)
+        
+        return score
+
+    def fit(self, y_true, y_preds):
+        optuna.logging.set_verbosity(optuna.logging.ERROR)
+        sampler = optuna.samplers.CmaEsSampler(seed=self.random_state)
+        self.study = optuna.create_study(sampler=sampler, study_name="OptunaWeights", direction='maximize') # minimize
+        objective_partial = partial(self._objective, y_true=y_true, y_preds=y_preds)
+        self.study.optimize(objective_partial, n_trials=self.n_trials)
+        self.weights = [self.study.best_params[f"weight{n}"] for n in range(len(y_preds))]
+
+    def predict(self, y_preds):
+        assert self.weights is not None, 'OptunaWeights error, must be fitted before predict'
+        weighted_pred = np.average(np.array(y_preds), axis=0, weights=self.weights)
+        return weighted_pred
+
+    def fit_predict(self, y_true, y_preds):
+        self.fit(y_true, y_preds)
+        return self.predict(y_preds)
+    
+    def weights(self):
+        return self.weights
+```
 
 ### 6. Make Submission
 After training and optimizing the models, we made the final predictions and submitted the results to Kaggle for evaluation.
