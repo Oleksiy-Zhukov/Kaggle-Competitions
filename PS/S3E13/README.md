@@ -400,7 +400,34 @@ The ensemble of models achieved a top 5 result out of 934 teams, with the best s
 <img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/60d71373-37d4-4694-9f02-68f7835e65c8">
 
 
+## Getting Started
+To run the Kaggle Notebook on your local machine or reproduce the results, follow these steps:
 
-https://www.kaggle.com/competitions/playground-series-s3e13
+1. Clone this repository to your local machine.
+2. Ensure you have the required libraries and dependencies installed. Refer to the `requirements.txt` file if any specific packages are necessary.
+3. Open the `ps_s3e13.ipynb` file using Jupyter Notebook or any compatible environment.
+4. Execute the cells in sequence to reproduce the analysis and results.
+5. Or use this [link](https://www.kaggle.com/code/zhukovoleksiy/5-solution-ps3e13-ensemble?scriptVersionId=127751711) to get to my kaggle notebook, click copy&edit to make a copy of my kernel and run it on your kaggle account.
 
-https://www.kaggle.com/competitions/playground-series-s3e13/data
+## Data
+The dataset used in this project is a part of the Kaggle Playground Series competition "Classification with a Tabular Vector Borne Disease Dataset." Unfortunately, due to Kaggle's terms of use and data privacy, we cannot provide a direct link to the dataset outside of Kaggle.
+
+If you are interested in exploring and participating in Kaggle competitions, you can visit Kaggle's website and search for the "Classification with a Tabular Vector Borne Disease Dataset" competition.
+
+Kaggle Website: www.kaggle.com
+
+## Kaggle Competition
+The "Classification with a Tabular Vector Borne Disease Dataset" competition is one of the interesting challenges from Kaggle's Playground Series. It is designed to give participants a light-weight and synthetic dataset that can be used to learn and sharpen their skills in machine learning and data science.
+
+For detailed information about the competition, including data description, evaluation metric, rules, and deadlines, you can visit the competition page on Kaggle:
+
+Competition Page: [Classification with a Tabular Vector Borne Disease Dataset](https://www.kaggle.com/competitions/playground-series-s3e13)
+
+Please note that you may need a Kaggle account and be logged in to access the competition page.
+
+## Acknowledgments
+We would like to express our gratitude to Kaggle for organizing the Playground Series competition and providing the interesting dataset. We also thank the Kaggle community for valuable discussions and insights that helped improve our approach.
+
+Happy coding and exploring!
+
+**Author: Oleksii Zhukov**
