@@ -48,6 +48,90 @@ We performed Exploratory Data Analysis (EDA) to gain insights into the dataset's
 ### 4. Feature Engineering
 The Feature Engineering phase aimed to prepare the data for model building. We created new features, handled missing values, and preprocessed the dataset to enhance model performance.
 
+```python
+# Implementing features
+for df in [df_concat, df_test]:
+    df['similar_cluster'] = df[similar_columns].sum(axis=1)
+    df['chikungunya_columns'] = df[chikungunya_columns].sum(axis=1)
+    df['lyme_columns'] = df[lyme_columns].sum(axis=1)
+    df['red_cols'] = df[red_cols].sum(axis=1)
+    df['orange_cols'] = df[orange_cols].sum(axis=1)
+    df['green_cols'] = df[green_cols].sum(axis=1)
+
+for df in [df_concat, df_test]: 
+    tungiasis_columns = ['ulcers', 'toenail_loss', 'itchiness']
+    df['tungiasis_cluster'] = df[tungiasis_columns].sum(axis=1)
+    
+    columns = [col for col in df if col != 'prognosis']
+    df[columns] = df[columns].astype(int)
+```
+
+Also was Decomposition was implemented. With dimensionality reduction using various decomposition methods, such as PCA (Principal Component Analysis), NMF (Non-Negative Matrix Factorization), UMAP (Uniform Manifold Approximation and Projection), and t-SNE (t-Distributed Stochastic Neighbor Embedding).
+
+```python
+class Decomp:
+    def __init__(self, n_components, method="pca", scaler_method='standard'):
+        self.n_components = n_components
+        self.method = method
+        self.scaler_method = scaler_method
+        
+    def dimension_reduction(self, df):
+            
+        X_reduced = self.dimension_method(df)
+        df_comp = pd.DataFrame(X_reduced, columns=[f'{self.method.upper()}_{_}' for _ in range(self.n_components)], index=df.index)
+        
+        return df_comp
+    
+    def dimension_method(self, df):
+        
+        X = self.scaler(df)
+        if self.method == "pca":
+            comp = PCA(n_components=self.n_components, random_state=0)
+            X_reduced = comp.fit_transform(X)
+        elif self.method == "nmf":
+            comp = NMF(n_components=self.n_components, random_state=0)
+            X_reduced = comp.fit_transform(X)
+        elif self.method == "umap":
+            comp = UMAP(n_components=self.n_components, random_state=0)
+            X_reduced = comp.fit_transform(X)
+        elif self.method == "tsne":
+            comp = TSNE(n_components=self.n_components, random_state=0) # Recommend n_components=2
+            X_reduced = comp.fit_transform(X)
+        else:
+            raise ValueError(f"Invalid method name: {method}")
+        
+        self.comp = comp
+        return X_reduced
+    
+    def scaler(self, df):
+        
+        _df = df.copy()
+            
+        if self.scaler_method == "standard":
+            return StandardScaler().fit_transform(_df)
+        elif self.scaler_method == "minmax":
+            return MinMaxScaler().fit_transform(_df)
+        elif self.scaler_method == None:
+            return _df.values
+        else:
+            raise ValueError(f"Invalid scaler_method name")
+        
+    def get_columns(self):
+        return [f'{self.method.upper()}_{_}' for _ in range(self.n_components)]
+    
+    def transform(self, df):
+        X = self.scaler(df)
+        X_reduced = self.comp.transform(X)
+        df_comp = pd.DataFrame(X_reduced, columns=[f'{self.method.upper()}_{_}' for _ in range(self.n_components)], index=df.index)
+        
+        return df_comp
+    
+    @property
+    def get_explained_variance_ratio(self):
+        
+        return np.sum(self.comp.explained_variance_ratio_)
+```
+
 ### 5. Model Building
 We employed a diverse set of machine learning models for the ensemble. The models used were:
 
