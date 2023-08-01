@@ -394,6 +394,12 @@ After training and optimizing the models, we made the final predictions and subm
 
 <img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/abde339a-f39a-44d8-91fd-e884e575d789">
 
+## Results and Conclusion
+The ensemble of models achieved a top 5 result out of 934 teams, with the best score of 0.51644 (V8). The combination of various classifiers and careful parameter tuning contributed to the success of the model ensemble.
+
+<img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/60d71373-37d4-4694-9f02-68f7835e65c8">
+
+
 
 https://www.kaggle.com/competitions/playground-series-s3e13
 
