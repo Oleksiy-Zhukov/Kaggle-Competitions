@@ -384,6 +384,10 @@ class OptunaWeights:
 
 <img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/3f851100-335e-4e86-8e0b-2885d6fbdc07">
 
+<img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/1c6caa5b-4a2d-49d9-af10-a9007ad63c0f">
+
+<img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/9b91b25b-20a1-4cc6-bba4-5931f219bbc1">
+
 
 
 ### 7. Make Submission
