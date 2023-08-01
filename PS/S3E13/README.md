@@ -36,7 +36,7 @@ These libraries are crucial for conducting the exploratory data analysis, featur
 
 Please ensure you have installed the specified versions of these libraries before running the notebook.
 
-*Notes*:
+*Note*:
 In the import section, we suppress warnings to ensure a clean output during the notebook execution. Additionally, you may notice that some libraries are imported but not explicitly used in the provided notebook content. These imports may have been used in other parts of the notebook, such as commented-out code or code blocks removed from the provided content.
 
 ### 3. Basic EDA
