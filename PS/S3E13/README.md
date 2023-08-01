@@ -144,6 +144,118 @@ Balanced Random Forest (BRF)
 Random Forest (RF)
 ### 5. Model Optimization
 To maximize model performance, we used Optuna to optimize hyperparameters for each model. Additionally, we optimized the ensemble weights to achieve the best possible combination of individual models.
+This is code I used to hypertune my models:
+
+```python
+# Load data and define target and features
+data = pd.DataFrame(y_train).join(X_train)
+target = y_train
+features = X_train
+
+# Define params
+n_splits = 10
+n_trials = 100
+early_stopping_rounds = 333
+
+# Define objective function for Optuna
+def objective(trial):
+    # Define hyperparameters to optimize
+    xgb_params = {
+        'n_estimators': trial.suggest_int('n_estimators', 50, 1000, step=50),
+        'learning_rate': trial.suggest_loguniform('learning_rate', 0.001, 1.0),
+        'max_depth': trial.suggest_int('max_depth', 3, 10),
+        'subsample': trial.suggest_uniform('subsample', 0.5, 1.0),
+        'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.1, 1.0),
+        'reg_alpha': trial.suggest_loguniform('reg_alpha', 0.001, 10.0),
+        'reg_lambda': trial.suggest_loguniform('reg_lambda', 0.001, 10.0),
+        'n_jobs': -1,
+        'eval_metric': 'mlogloss',
+        'objective': 'multi:softprob',
+        'tree_method': 'hist',
+        'verbosity': 0,
+        'random_state': 42
+     }
+
+    lgb_params = {
+        'n_estimators': trial.suggest_int('n_estimators', 50, 1000, step=50),
+        'max_depth': trial.suggest_int('max_depth', 3, 10),
+        'learning_rate': trial.suggest_loguniform('learning_rate', 0.001, 1.0),
+        'subsample': trial.suggest_uniform('subsample', 0.1, 1.0),
+        'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.1, 1.0),
+        'reg_alpha': trial.suggest_loguniform('reg_alpha', 0.001, 10.0),
+        'reg_lambda': trial.suggest_loguniform('reg_lambda', 0.001, 10.0),
+        'one_hot_max_size': trial.suggest_int('one_hot_max_size', 10, 100),
+        'objective': 'multiclass',
+        'metric': 'multi_logloss',
+        'boosting_type': 'gbdt',
+        'device': "cpu",
+        'random_state': 42
+    }
+
+    cat_params = {
+        'iterations': self.n_estimators,
+        'depth': trial.suggest_int('depth', 4, 10),
+        'learning_rate': trial.suggest_loguniform('learning_rate', 0.01, 0.5),
+        'l2_leaf_reg': trial.suggest_loguniform('l2_leaf_reg', 0.1, 10.0),
+        'random_strength': trial.suggest_loguniform('random_strength', 0.1, 1.0),
+        'max_bin': trial.suggest_int('max_bin', 100, 500),
+        'od_wait': trial.suggest_int('od_wait', 20, 100),
+        'one_hot_max_size': 70,
+        'grow_policy': trial.suggest_categorical('grow_policy', ['SymmetricTree', 'Depthwise', 'Lossguide']),
+        'bootstrap_type': trial.suggest_categorical('bootstrap_type', ['Bayesian', 'Bernoulli']),
+        'od_type': trial.suggest_categorical('od_type', ['IncToDec', 'Iter']),
+        'eval_metric': 'MultiClass',
+        'loss_function': 'MultiClass',
+        'random_state': 42
+    }
+
+    # Initialize KFold cross-validator
+    kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+
+    # Initialize list to store MAP@3 scores for each fold
+    map3_scores = []
+
+    # Loop over folds in parallel
+    results = Parallel(n_jobs=-1)(delayed(get_fold_score)(params, features, target, train_idx, valid_idx, early_stopping_rounds) for train_idx, valid_idx in kf.split(data))
+    map3_scores = [r[0] for r in results]
+
+    # Return negative mean of MAP@3 scores (Optuna maximizes the objective)
+    return np.mean(map3_scores)
+
+# Define function to get MAP@3 score for a fold
+def get_fold_score(params, features, target, train_idx, valid_idx, early_stopping_rounds):
+    # Split data into training and validation sets
+    X_train, X_valid = features.iloc[train_idx], features.iloc[valid_idx]
+    y_train, y_valid = target.iloc[train_idx], target.iloc[valid_idx]
+
+    # Initialize XGBoost model
+    model = xgb.XGBClassifier(**params)
+
+#    model = lgb.LGBMClassifier(**params)
+
+#    model = CatBoostClassifier(**params)
+
+
+    # Fit model on training data
+    model.fit(X_train, y_train, eval_set=[(X_valid, y_valid)], early_stopping_rounds=early_stopping_rounds, verbose=False)
+
+    # Predict probabilities for validation data
+    y_pred = model.predict_proba(X_valid)
+    top_preds = np.argsort(-y_pred, axis=1)[:, :3]
+
+    # Calculate MAP@3 score for validation data
+    map3 = mapk(y_valid.values.reshape(-1, 1), top_preds, 3)
+
+    return (map3,)
+
+# Run Optuna to find the best hyperparameters
+study = optuna.create_study(direction='maximize')
+study.optimize(objective, n_trials=n_trials)
+
+# Print the best hyperparameters and their score
+print('Best hyperparameters: {}'.format(study.best_params))
+print('Best score: {}'.format(study.best_value))
+```
 
 ### 6. Make Submission
 After training and optimizing the models, we made the final predictions and submitted the results to Kaggle for evaluation.
