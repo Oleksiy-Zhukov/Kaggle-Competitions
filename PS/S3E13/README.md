@@ -135,13 +135,93 @@ class Decomp:
 ### 5. Model Building
 We employed a diverse set of machine learning models for the ensemble. The models used were:
 
-Support Vector Classifier (SVC)
-Logistic Regression (LR)
-XGBoost (XGB)
-LightGBM (LGB)
-CatBoost (Cat)
-Balanced Random Forest (BRF)
-Random Forest (RF)
+* Support Vector Classifier (SVC)
+* Logistic Regression (LR)
+* XGBoost (XGB)
+* LightGBM (LGB)
+* CatBoost (Cat)
+* Balanced Random Forest (BRF)
+* Random Forest (RF)
+```python
+  class Classifier:
+    def __init__(self, n_estimators=250, device="cpu", random_state=0):
+        self.n_estimators = n_estimators
+        self.device = device
+        self.random_state = random_state
+        self.models = self._define_model()
+        self.len_models = len(self.models)
+        
+    def _define_model(self):
+        
+        xgb_params = {
+            'n_estimators': 950,
+            'learning_rate': 0.15639672008038652,
+            'max_depth': 9,
+            'subsample': 0.7154363211099006,
+            'colsample_bytree': 0.1834688802646254,
+            'reg_alpha': 0.00662736159424831,
+            'reg_lambda': 0.392111943900896,
+            'n_jobs': -1,
+            'eval_metric': 'mlogloss',
+            'objective': 'multi:softprob',
+            'tree_method': 'hist',
+            'verbosity': 0,
+            'random_state': self.random_state
+        }
+        
+        if self.device == 'gpu':
+            xgb_params['tree_method'] = 'gpu_hist'
+            xgb_params['predictor'] = 'gpu_predictor'
+        
+        
+        lgb_params = {
+            'n_estimators': 650,
+            'max_depth': 6,
+            'learning_rate': 0.09800555723996654,
+            'subsample': 0.5113976179887376,
+            'colsample_bytree': 0.15594697300978008,
+            'reg_alpha': 0.24312642991831,
+            'reg_lambda': 0.06500132210882924,
+            'one_hot_max_size': 95,
+            'device': self.device,
+            'random_state': self.random_state}
+                
+        
+        cb_params = {
+            'n_estimators': 1000,
+            'depth': 9, 
+            'learning_rate': 0.45645253367049604,
+            'l2_leaf_reg': 8.407202048380578,
+            'random_strength': 0.1793388390086202,
+            'max_bin': 225, 
+            'od_wait': 58, 
+            'grow_policy': 'Lossguide',
+            'bootstrap_type': 'Bayesian',
+            'od_type': 'Iter',
+            'task_type': self.device.upper(),
+            'random_state': self.random_state
+        }
+                
+        models = {
+            'svc': SVC(gamma="auto", probability=True, random_state=self.random_state),
+#             'svc_li': SVC(kernel="linear", gamma="auto", probability=True, random_state=self.random_state),
+#             'svc_po': SVC(kernel="poly", gamma="auto", probability=True, random_state=self.random_state),
+#             'svc_si': SVC(kernel="sigmoid", gamma="auto", probability=True, random_state=self.random_state),
+            'lr': LogisticRegression(max_iter=150, random_state=self.random_state, n_jobs=-1),
+            'xgb': xgb.XGBClassifier(**xgb_params),
+            'lgb': lgb.LGBMClassifier(**lgb_params),
+            'cat': CatBoostClassifier(**cb_params),
+            'brf': BalancedRandomForestClassifier(n_estimators=400, n_jobs=-1, random_state=self.random_state),
+            'rf': RandomForestClassifier(n_estimators=200, random_state=self.random_state),
+           # 'knn': KNeighborsClassifier(n_neighbors=5),
+           # 'mlp': MLPClassifier(random_state=self.random_state, max_iter=1000),
+           # 'xgb_0':xgb.XGBClassifier(random_state=self.random_state),
+            #'lgb_0':lgb.LGBMClassifier(random_state=self.random_state),
+            #'cat_0':CatBoostClassifier(random_state=self.random_state),
+        }
+        return models
+```
+
 ### 5. Model Optimization
 To maximize model performance, we used Optuna to optimize hyperparameters for each model. Additionally, we optimized the ensemble weights to achieve the best possible combination of individual models.
 This is code I used to hypertune my models:
