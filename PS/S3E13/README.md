@@ -1,7 +1,4 @@
 # [PS S3E13] Simple EDA + Ensemble for Kaggle Playground Series - Classification with a Tabular Vector Borne Disease Dataset
-
-<img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/74161f7c-b244-4fe0-90c5-2270ba50e3d1">
-
 ## Introduction
 
 Welcome to the README for the Kaggle Playground Series competition titled "Classification with a Tabular Vector Borne Disease Dataset." This repository contains the code and analysis for the competition entry, which achieved a top 5 result out of 934 teams with a best MAP@3 score of 0.51644.
