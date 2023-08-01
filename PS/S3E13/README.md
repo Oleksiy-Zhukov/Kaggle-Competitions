@@ -39,13 +39,13 @@ Please ensure you have installed the specified versions of these libraries befor
 *Note*:
 In the import section, we suppress warnings to ensure a clean output during the notebook execution. Additionally, you may notice that some libraries are imported but not explicitly used in the provided notebook content. These imports may have been used in other parts of the notebook, such as commented-out code or code blocks removed from the provided content.
 
-### 3. Basic EDA
+### 2. Basic EDA
 We performed Exploratory Data Analysis (EDA) to gain insights into the dataset's characteristics. This involved visualizing distributions, examining feature correlations, and identifying potential outliers.
 
 <img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/354066db-9bc8-4342-96c0-8b1667db13c2">
 
 
-### 4. Feature Engineering
+### 3. Feature Engineering
 The Feature Engineering phase aimed to prepare the data for model building. We created new features, handled missing values, and preprocessed the dataset to enhance model performance.
 
 ```python
@@ -132,7 +132,7 @@ class Decomp:
         return np.sum(self.comp.explained_variance_ratio_)
 ```
 
-### 5. Model Building
+### 4. Model Building
 We employed a diverse set of machine learning models for the ensemble. The models used were:
 
 * Support Vector Classifier (SVC)
@@ -380,7 +380,13 @@ class OptunaWeights:
         return self.weights
 ```
 
-### 6. Make Submission
+### 6. Visualize Feature importance (XGBoost, LightGBM, Catboost):
+
+<img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/3f851100-335e-4e86-8e0b-2885d6fbdc07">
+
+
+
+### 7. Make Submission
 After training and optimizing the models, we made the final predictions and submitted the results to Kaggle for evaluation.
 https://www.kaggle.com/competitions/playground-series-s3e13
 
