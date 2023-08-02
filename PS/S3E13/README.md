@@ -34,16 +34,16 @@ These libraries are crucial for conducting the exploratory data analysis, featur
 Please ensure you have installed the specified versions of these libraries before running the notebook.
 
 *Note*:
-In the import section, we suppress warnings to ensure a clean output during the notebook execution. Additionally, you may notice that some libraries are imported but not explicitly used in the provided notebook content. These imports may have been used in other parts of the notebook, such as commented-out code or code blocks removed from the provided content.
+In the import section, I suppress warnings to ensure a clean output during the notebook execution. Additionally, you may notice that some libraries are imported but not explicitly used in the provided notebook content. These imports may have been used in other parts of the notebook, such as commented-out code or code blocks removed from the provided content.
 
 ### 2. Basic EDA
-We performed Exploratory Data Analysis (EDA) to gain insights into the dataset's characteristics. This involved visualizing distributions, examining feature correlations, and identifying potential outliers.
+Performed Exploratory Data Analysis (EDA) to gain insights into the dataset's characteristics. This involved visualizing distributions, examining feature correlations, and identifying potential outliers.
 
 <img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/354066db-9bc8-4342-96c0-8b1667db13c2">
 
 
 ### 3. Feature Engineering
-The Feature Engineering phase aimed to prepare the data for model building. We created new features, handled missing values, and preprocessed the dataset to enhance model performance.
+The Feature Engineering phase aimed to prepare the data for model building. I created new features, handled missing values, and preprocessed the dataset to enhance model performance.
 
 ```python
 # Implementing features
@@ -130,7 +130,7 @@ class Decomp:
 ```
 
 ### 4. Model Building
-We employed a diverse set of machine learning models for the ensemble. The models used were:
+I employed a diverse set of machine learning models for the ensemble. The models used were:
 
 * Support Vector Classifier (SVC)
 * Logistic Regression (LR)
@@ -220,7 +220,7 @@ We employed a diverse set of machine learning models for the ensemble. The model
 ```
 
 ### 5. Model Optimization
-To maximize model performance, we used Optuna to optimize hyperparameters for each model. Additionally, we optimized the ensemble weights to achieve the best possible combination of individual models.
+To maximize model performance, I used Optuna to optimize hyperparameters for each model. Additionally, I optimized the ensemble weights to achieve the best possible combination of individual models.
 This is code I used to hypertune my models:
 
 ```python
@@ -388,14 +388,14 @@ class OptunaWeights:
 
 
 ### 7. Make Submission
-After training and optimizing the models, we made the final predictions and submitted the results to Kaggle for evaluation.
+After training and optimizing the models, I made the final predictions and submitted the results to Kaggle for evaluation.
 
 <img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/ca8e94bc-aebc-46a7-9cdd-3420d928a69a">
 
 <img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/abde339a-f39a-44d8-91fd-e884e575d789">
 
 ## Results and Conclusion
-The ensemble of models achieved a top 5 result out of 934 teams, with the best score of 0.51644 (V8). The combination of various classifiers and careful parameter tuning contributed to the success of the model ensemble.
+The ensemble of models achieved a top 5 result out of 934 teams, with the best MAP@3 score of 0.51644. The combination of various classifiers and careful parameter tuning contributed to the success of the model ensemble.
 
 <img src="https://github.com/Oleksiy-Zhukov/Kaggle-Competitions/assets/75014961/60d71373-37d4-4694-9f02-68f7835e65c8">
 
@@ -410,7 +410,7 @@ To run the Kaggle Notebook on your local machine or reproduce the results, follo
 5. Or use this [link](https://www.kaggle.com/code/zhukovoleksiy/5-solution-ps3e13-ensemble?scriptVersionId=127751711) to get to my kaggle notebook, click copy&edit to make a copy of my kernel and run it on your kaggle account.
 
 ## Data
-The dataset used in this project is a part of the Kaggle Playground Series competition "Classification with a Tabular Vector Borne Disease Dataset." Unfortunately, due to Kaggle's terms of use and data privacy, we cannot provide a direct link to the dataset outside of Kaggle.
+The dataset used in this project is a part of the Kaggle Playground Series competition "Classification with a Tabular Vector Borne Disease Dataset." Unfortunately, due to Kaggle's terms of use and data privacy, I cannot provide a direct link to the dataset outside of Kaggle.
 
 If you are interested in exploring and participating in Kaggle competitions, you can visit Kaggle's website and search for the "Classification with a Tabular Vector Borne Disease Dataset" competition.
 
@@ -426,7 +426,7 @@ Competition Page: [Classification with a Tabular Vector Borne Disease Dataset](h
 Please note that you may need a Kaggle account and be logged in to access the competition page.
 
 ## Acknowledgments
-We would like to express our gratitude to Kaggle for organizing the Playground Series competition and providing the interesting dataset. We also thank the Kaggle community for valuable discussions and insights that helped improve our approach.
+I would like to express our gratitude to Kaggle for organizing the Playground Series competition and providing the interesting dataset. I also thank the Kaggle community for valuable discussions and insights that helped improve our approach.
 
 Happy coding and exploring!
 
