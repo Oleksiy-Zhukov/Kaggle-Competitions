@@ -9,6 +9,6 @@ imbalanced-learn==0.8.0
 optuna==2.10.0
 joblib==1.0.1
 xgboost==1.4.2
-lightgbm==3.2.1
+lightgbm>=4.6.0
 catboost==0.26.1
 umap-learn==0.5.1
